@@ -1,0 +1,910 @@
+<document xmlns="http://cnx.rice.edu/cnxml" xmlns:m="http://www.w3.org/1998/Math/MathML" xmlns:md="http://cnx.rice.edu/mdml">
+  <title>Transformacija pogleda</title>
+  <metadata><md:content-id>undefined</md:content-id><md:title/><md:uuid>e861d984-f2ce-4334-b221-a43f2f4b3eb1</md:uuid>
+</metadata>
+  <content>
+    <section id="id-454401425465">
+      <title>Transformacija pogleda</title>
+      <para id="id8583215">Na slici <emphasis>Euklidova šetnja</emphasis> (Les Promenades d'Euclide), belgijski umetnik Rene Magrit (Magritte) predstavlja nam obmanu oka koje perspektivu jednog pariskog bulevara gotovo ne razlikuje od konusnog oblika jedne srednjevekovne građevine.</para>
+      <table id="id10883554" summary="">
+        <tgroup cols="1">
+          <colspec colnum="1" colname="c1"/>
+          <tbody>
+            <row>
+              <entry>
+                <media id="idp3563024" alt=""><image src="../../media/graphics1.jpg" mime-type="image/jpeg"/></media>
+              </entry>
+            </row>
+            <row>
+              <entry>Sl. 1. Rene Magrit, <emphasis>Euklidova šetnja</emphasis>, 1955, ulje na platnu (Minneapolis Institute of Arts)</entry>
+            </row>
+          </tbody>
+        </tgroup>
+      </table>
+      <para id="id10597758">Ovakve dvosmislenosti i druge obmane čula vida navode nas na traženje preciznog formalnog “jezika” kojim bi računskoj mašini preneli naše geometrijske ideje na jednoznačan način. Međutim, ova slika sadrži i “priču” upravo o onom optičko-geometrijskom odnosu o kome ovde raspravljamo i koji se zove <term>transformacija pogleda</term>. Naime, na Magritovoj slici rađenoj u tehnici ulje ne platnu, vidimo jedan veliki prozor nekog pariskog salona ispred koga stoji slikarski stafelaj na kome je tek završeno platno na kome se vidi deo pariskog pejzaža. Deo objektivne stvarnosti tako je verno prenet na platno da se više ne razlikuje od stvarnosti. Slikarsko platno možemo poistovetiti sa ekranom računara, a naslikano platno na štafelaju sa vidnim poljem koje se u grafici zove <term>vjuport</term> (<term>viewport</term>). Na pravougaonom polju vjuporta, umetnik predstavlja deo realnosti (bulevar i kulu) koji vidi kroz prozor. Ovaj prozor se u grafici zove <term>svetski prozor</term> (<term>world window</term>). Sada ostaje samo da slikarsko platno zamenimo ekranom računara.</para>
+      <para id="id9371869">Prvi korak u tom pravcu je definisanje “okvira” na ekranu računara u kome ćemo raditi i razvijati neki naš projekat. Taj se “okvir” zove se <term>ekranski prozor</term> i predstavljen je pravougaonikom čija donja stranica predstavlja ekransku 
+<m:math><m:semantics><m:mrow><m:mstyle fontsize="12pt"><m:mrow><m:mrow><m:mi>x</m:mi><m:mo stretchy="false">−</m:mo><m:mrow/></m:mrow></m:mrow></m:mstyle><m:mrow/></m:mrow><m:annotation encoding="StarMath 5.0"> size 12{x - {}} {}</m:annotation></m:semantics></m:math>koordinatu, dok leva, vertikalna stranica predstavlja ekransku 
+<m:math><m:semantics><m:mrow><m:mstyle fontsize="12pt"><m:mrow><m:mrow><m:mi>y</m:mi><m:mo stretchy="false">−</m:mo><m:mrow/></m:mrow></m:mrow></m:mstyle><m:mrow/></m:mrow><m:annotation encoding="StarMath 5.0"> size 12{y - {}} {}</m:annotation></m:semantics></m:math>koordinatu (Slika 2, desno). </para>
+      <para id="id9640854"><table id="id11306921" summary=""><tgroup cols="1"><colspec colnum="1" colname="c1"/><tbody><row><entry><media id="idm2862224" alt=""><image src="../../media/graphics2.jpg" mime-type="image/jpeg"/></media></entry></row><row><entry>Sl. 2. “Window-to-viewport” transformacija (transfrmacija pogleda)</entry></row></tbody></tgroup></table>U ekranski prozor smeštamo sliku koju obrađujemo. Format slike, po pravilu je manji od formata ekranskog prozora, i takodje po pravilu je i sam pravougaon. Taj novi, manji pravougaonik, koji sadrži sliku na kojoj radimo, je <term>vjuport</term><emphasis>.</emphasis> Dakle, vjuport sadrži sliku koju obrađujemo i koja je transformisana slika neke realne scene iz fizičkog sveta. Okvir te realne slike, kao što je već naglašeno je <term>svetski prozor</term> (<term>world window</term>) a odgovarajuće koordinate, postavljene na analogan način kao i ekranske, zovu se <term>svetske koordinate.</term> Na Slici 2 (levo), svetske koordinate su označene sa 
+<m:math><m:semantics><m:mrow><m:mstyle fontsize="12pt"><m:mrow><m:mi>X</m:mi></m:mrow></m:mstyle><m:mrow/></m:mrow><m:annotation encoding="StarMath 5.0"> size 12{X} {}</m:annotation></m:semantics></m:math><emphasis/>i 
+<m:math><m:semantics><m:mrow><m:mstyle fontsize="12pt"><m:mrow><m:mi>Y</m:mi></m:mrow></m:mstyle><m:mrow/></m:mrow><m:annotation encoding="StarMath 5.0"> size 12{Y} {}</m:annotation></m:semantics></m:math>. Koordinatni sistem 
+<m:math><m:semantics><m:mrow><m:mstyle fontsize="12pt"><m:mrow><m:mrow><m:mo stretchy="false">(</m:mo><m:mi>X</m:mi><m:mi>,</m:mi><m:mi>Y</m:mi><m:mo stretchy="false">)</m:mo></m:mrow></m:mrow></m:mstyle><m:mrow/></m:mrow><m:annotation encoding="StarMath 5.0"> size 12{ \( X,Y \) } {}</m:annotation></m:semantics></m:math> zove se <term>svetski koordinatni sistem</term>.</para>
+      <para id="id9208480">Na osnovu rečenog, možemo naslutiti da je potrebno, bilo preračunati svetske koordinate u ekranske, bilo obrnuto. Lako je ustanoviti da je odnos svetskih 
+<m:math><m:semantics><m:mrow><m:mstyle fontsize="12pt"><m:mrow><m:mrow><m:mo stretchy="false">(</m:mo><m:mi>X</m:mi><m:mi>,</m:mi><m:mi>Y</m:mi><m:mo stretchy="false">)</m:mo></m:mrow></m:mrow></m:mstyle><m:mrow/></m:mrow><m:annotation encoding="StarMath 5.0"> size 12{ \( X,Y \) } {}</m:annotation></m:semantics></m:math> i ekranskih koordinata 
+<m:math><m:semantics><m:mrow><m:mstyle fontsize="12pt"><m:mrow><m:mrow><m:mo stretchy="false">(</m:mo><m:mi>x</m:mi><m:mi>,</m:mi><m:mi>y</m:mi><m:mo stretchy="false">)</m:mo></m:mrow></m:mrow></m:mstyle><m:mrow/></m:mrow><m:annotation encoding="StarMath 5.0"> size 12{ \( x,y \) } {}</m:annotation></m:semantics></m:math> dat linearnom vezom </para>
+      <para id="id10961578">(1) 
+<m:math><m:semantics><m:mrow><m:mstyle fontsize="12pt"><m:mrow><m:mrow><m:mrow><m:mi>x</m:mi><m:mo stretchy="false">=</m:mo><m:mrow><m:mstyle fontstyle="italic"><m:mrow><m:mtext>aX</m:mtext></m:mrow></m:mstyle><m:mo stretchy="false">+</m:mo><m:mi>e</m:mi></m:mrow></m:mrow><m:mi>,</m:mi><m:mi/><m:mrow><m:mi>y</m:mi><m:mo stretchy="false">=</m:mo><m:mrow><m:mstyle fontstyle="italic"><m:mrow><m:mtext>dY</m:mtext></m:mrow></m:mstyle><m:mo stretchy="false">+</m:mo><m:mi>f</m:mi></m:mrow></m:mrow></m:mrow></m:mrow></m:mstyle><m:mrow/></m:mrow><m:annotation encoding="StarMath 5.0"> size 12{x= ital "aX"+e,~~y= ital "dY"+f} {}</m:annotation></m:semantics></m:math>, </para>
+      <para id="id9957905">pri čemu su 
+<m:math><m:semantics><m:mrow><m:mstyle fontsize="12pt"><m:mrow><m:mrow><m:mi>a</m:mi><m:mi>,</m:mi><m:mi>e</m:mi><m:mi>,</m:mi><m:mi>d</m:mi><m:mi>,</m:mi><m:mi>f</m:mi></m:mrow></m:mrow></m:mstyle><m:mrow/></m:mrow><m:annotation encoding="StarMath 5.0"> size 12{a,e,d,f} {}</m:annotation></m:semantics></m:math> realne konstante i pritom je 
+<m:math><m:semantics><m:mrow><m:mstyle fontsize="12pt"><m:mrow><m:mrow><m:mrow><m:mi>a</m:mi><m:mo stretchy="false">≠</m:mo><m:mn>0,</m:mn></m:mrow><m:mi/><m:mrow><m:mi>d</m:mi><m:mo stretchy="false">≠</m:mo><m:mn>0</m:mn></m:mrow><m:mtext>.</m:mtext></m:mrow></m:mrow></m:mstyle><m:mrow/></m:mrow><m:annotation encoding="StarMath 5.0"> size 12{a &lt;&gt; 0,~d &lt;&gt; 0 "." } {}</m:annotation></m:semantics></m:math> Ova transformacija je u računarskoj grafici poznata kao <term>transformacija pogleda</term> ili, preciznije <term>window-to-viewport transformacija</term><emphasis>.</emphasis> Pravougaonik, čije su stranice paralelne ko­ordinatnim osama je potpuno definisan ukoliko poznajemo koordinate njegovog donjeg levog i gornjeg desnog temena. Dakle, svetski prozor je definisan sa dva uređena para 
+<m:math><m:semantics><m:mrow><m:mstyle fontsize="12pt"><m:mrow><m:mrow><m:mo stretchy="false">(</m:mo><m:msub><m:mi>X</m:mi><m:mstyle fontsize="8pt"><m:mrow><m:mn>1</m:mn></m:mrow></m:mstyle></m:msub><m:mi>,</m:mi><m:msub><m:mi>Y</m:mi><m:mstyle fontsize="8pt"><m:mrow><m:mn>1</m:mn></m:mrow></m:mstyle></m:msub><m:mo stretchy="false">)</m:mo></m:mrow></m:mrow></m:mstyle><m:mrow/></m:mrow><m:annotation encoding="StarMath 5.0"> size 12{ \( X rSub { size 8{1} } ,Y rSub { size 8{1} }  \) } {}</m:annotation></m:semantics></m:math> i 
+<m:math><m:semantics><m:mrow><m:mstyle fontsize="12pt"><m:mrow><m:mrow><m:mo stretchy="false">(</m:mo><m:msub><m:mi>X</m:mi><m:mstyle fontsize="8pt"><m:mrow><m:mn>2</m:mn></m:mrow></m:mstyle></m:msub><m:mi>,</m:mi><m:msub><m:mi>Y</m:mi><m:mstyle fontsize="8pt"><m:mrow><m:mn>2</m:mn></m:mrow></m:mstyle></m:msub><m:mo stretchy="false">)</m:mo></m:mrow></m:mrow></m:mstyle><m:mrow/></m:mrow><m:annotation encoding="StarMath 5.0"> size 12{ \( X rSub { size 8{2} } ,Y rSub { size 8{2} }  \) } {}</m:annotation></m:semantics></m:math>, pri čemu, neka je 
+<m:math><m:semantics><m:mrow><m:mstyle fontsize="12pt"><m:mrow><m:mrow><m:msub><m:mi>X</m:mi><m:mstyle fontsize="8pt"><m:mrow><m:mn>1</m:mn></m:mrow></m:mstyle></m:msub><m:mo stretchy="false">&lt;</m:mo><m:msub><m:mi>X</m:mi><m:mstyle fontsize="8pt"><m:mrow><m:mn>2</m:mn></m:mrow></m:mstyle></m:msub></m:mrow></m:mrow></m:mstyle><m:mrow/></m:mrow><m:annotation encoding="StarMath 5.0"> size 12{X rSub { size 8{1} } &lt;X rSub { size 8{2} } } {}</m:annotation></m:semantics></m:math> i 
+<m:math><m:semantics><m:mrow><m:mstyle fontsize="12pt"><m:mrow><m:mrow><m:msub><m:mi>Y</m:mi><m:mstyle fontsize="8pt"><m:mrow><m:mn>1</m:mn></m:mrow></m:mstyle></m:msub><m:mo stretchy="false">&lt;</m:mo><m:msub><m:mi>Y</m:mi><m:mstyle fontsize="8pt"><m:mrow><m:mn>2</m:mn></m:mrow></m:mstyle></m:msub></m:mrow></m:mrow></m:mstyle><m:mrow/></m:mrow><m:annotation encoding="StarMath 5.0"> size 12{Y rSub { size 8{1} } &lt;Y rSub { size 8{2} } } {}</m:annotation></m:semantics></m:math> , što u stvari znači da je 
+<m:math><m:semantics><m:mrow><m:mstyle fontsize="12pt"><m:mrow><m:mrow><m:mo stretchy="false">(</m:mo><m:msub><m:mi>X</m:mi><m:mstyle fontsize="8pt"><m:mrow><m:mn>1</m:mn></m:mrow></m:mstyle></m:msub><m:mi>,</m:mi><m:msub><m:mi>Y</m:mi><m:mstyle fontsize="8pt"><m:mrow><m:mn>1</m:mn></m:mrow></m:mstyle></m:msub><m:mo stretchy="false">)</m:mo></m:mrow></m:mrow></m:mstyle><m:mrow/></m:mrow><m:annotation encoding="StarMath 5.0"> size 12{ \( X rSub { size 8{1} } ,Y rSub { size 8{1} }  \) } {}</m:annotation></m:semantics></m:math> njegovo donje levo, a 
+<m:math><m:semantics><m:mrow><m:mstyle fontsize="12pt"><m:mrow><m:mrow><m:mo stretchy="false">(</m:mo><m:msub><m:mi>X</m:mi><m:mstyle fontsize="8pt"><m:mrow><m:mn>2</m:mn></m:mrow></m:mstyle></m:msub><m:mi>,</m:mi><m:msub><m:mi>Y</m:mi><m:mstyle fontsize="8pt"><m:mrow><m:mn>2</m:mn></m:mrow></m:mstyle></m:msub><m:mo stretchy="false">)</m:mo></m:mrow></m:mrow></m:mstyle><m:mrow/></m:mrow><m:annotation encoding="StarMath 5.0"> size 12{ \( X rSub { size 8{2} } ,Y rSub { size 8{2} }  \) } {}</m:annotation></m:semantics></m:math> gornje desno teme. Ako na sličan način obeležimo i donje levo tj. gornje desno teme vjuporta, tj. sa 
+<m:math><m:semantics><m:mrow><m:mstyle fontsize="12pt"><m:mrow><m:mrow><m:mo stretchy="false">(</m:mo><m:msub><m:mi>x</m:mi><m:mstyle fontsize="8pt"><m:mrow><m:mn>1</m:mn></m:mrow></m:mstyle></m:msub><m:mi>,</m:mi><m:msub><m:mi>y</m:mi><m:mstyle fontsize="8pt"><m:mrow><m:mn>1</m:mn></m:mrow></m:mstyle></m:msub><m:mo stretchy="false">)</m:mo></m:mrow></m:mrow></m:mstyle><m:mrow/></m:mrow><m:annotation encoding="StarMath 5.0"> size 12{ \( x rSub { size 8{1} } ,y rSub { size 8{1} }  \) } {}</m:annotation></m:semantics></m:math> i 
+<m:math><m:semantics><m:mrow><m:mstyle fontsize="12pt"><m:mrow><m:mrow><m:mo stretchy="false">(</m:mo><m:msub><m:mi>x</m:mi><m:mstyle fontsize="8pt"><m:mrow><m:mn>2</m:mn></m:mrow></m:mstyle></m:msub><m:mi>,</m:mi><m:msub><m:mi>y</m:mi><m:mstyle fontsize="8pt"><m:mrow><m:mn>2</m:mn></m:mrow></m:mstyle></m:msub><m:mo stretchy="false">)</m:mo></m:mrow></m:mrow></m:mstyle><m:mrow/></m:mrow><m:annotation encoding="StarMath 5.0"> size 12{ \( x rSub { size 8{2} } ,y rSub { size 8{2} }  \) } {}</m:annotation></m:semantics></m:math>, mogućne su dve situacije. </para>
+      <table id="id11022354" summary="">
+        <tgroup cols="1">
+          <colspec colnum="1" colname="c1"/>
+          <tbody>
+            <row>
+              <entry>
+                <media id="idm9635760" alt=""><image src="../../media/graphics3.png" mime-type="image/png"/></media>
+              </entry>
+            </row>
+            <row>
+              <entry>Sl. 3. Direktna i inverzna “window-to-viewport” transformacija</entry>
+            </row>
+          </tbody>
+        </tgroup>
+      </table>
+      <list list-type="enumerated" id="id10977458">
+        <item>Poznata je transformacija (1), tj. konstante 
+<m:math><m:semantics><m:mrow><m:mstyle fontsize="12pt"><m:mrow><m:mrow><m:mi>a</m:mi><m:mi>,</m:mi><m:mi>e</m:mi><m:mi>,</m:mi><m:mi>d</m:mi><m:mi>,</m:mi><m:mi>f</m:mi></m:mrow></m:mrow></m:mstyle><m:mrow/></m:mrow><m:annotation encoding="StarMath 5.0"> size 12{a,e,d,f} {}</m:annotation></m:semantics></m:math> i jedan od dva pravougaonika (window ili viewport). Tada iz (1) izračunavamo drugi.</item>
+        <item>Poznati su window 
+<m:math><m:semantics><m:mrow><m:mstyle fontsize="12pt"><m:mrow><m:mrow><m:mi>P</m:mi><m:mo stretchy="false">=</m:mo><m:mrow><m:mo stretchy="false">{</m:mo><m:mrow><m:mo stretchy="false">(</m:mo><m:msub><m:mi>X</m:mi><m:mstyle fontsize="8pt"><m:mrow><m:mn>1</m:mn></m:mrow></m:mstyle></m:msub><m:mi>,</m:mi><m:msub><m:mi>Y</m:mi><m:mstyle fontsize="8pt"><m:mrow><m:mn>1</m:mn></m:mrow></m:mstyle></m:msub><m:mo stretchy="false">)</m:mo><m:mi>,</m:mi><m:mo stretchy="false">(</m:mo><m:msub><m:mi>X</m:mi><m:mstyle fontsize="8pt"><m:mrow><m:mn>2</m:mn></m:mrow></m:mstyle></m:msub><m:mi>,</m:mi><m:msub><m:mi>Y</m:mi><m:mstyle fontsize="8pt"><m:mrow><m:mn>2</m:mn></m:mrow></m:mstyle></m:msub><m:mo stretchy="false">)</m:mo></m:mrow><m:mo stretchy="false">}</m:mo></m:mrow></m:mrow></m:mrow></m:mstyle><m:mrow/></m:mrow><m:annotation encoding="StarMath 5.0"> size 12{P= lbrace  \( X rSub { size 8{1} } ,Y rSub { size 8{1} }  \) , \( X rSub { size 8{2} } ,Y rSub { size 8{2} }  \)  rbrace } {}</m:annotation></m:semantics></m:math> i viewport 
+<m:math><m:semantics><m:mrow><m:mstyle fontsize="12pt"><m:mrow><m:mrow><m:mi>p</m:mi><m:mo stretchy="false">=</m:mo><m:mrow><m:mo stretchy="false">{</m:mo><m:mrow><m:mo stretchy="false">(</m:mo><m:msub><m:mi>x</m:mi><m:mstyle fontsize="8pt"><m:mrow><m:mn>1</m:mn></m:mrow></m:mstyle></m:msub><m:mi>,</m:mi><m:msub><m:mi>y</m:mi><m:mstyle fontsize="8pt"><m:mrow><m:mn>1</m:mn></m:mrow></m:mstyle></m:msub><m:mo stretchy="false">)</m:mo><m:mi>,</m:mi><m:mo stretchy="false">(</m:mo><m:msub><m:mi>x</m:mi><m:mstyle fontsize="8pt"><m:mrow><m:mn>2</m:mn></m:mrow></m:mstyle></m:msub><m:mi>,</m:mi><m:msub><m:mi>y</m:mi><m:mstyle fontsize="8pt"><m:mrow><m:mn>2</m:mn></m:mrow></m:mstyle></m:msub><m:mo stretchy="false">)</m:mo></m:mrow><m:mo stretchy="false">}</m:mo></m:mrow></m:mrow></m:mrow></m:mstyle><m:mrow/></m:mrow><m:annotation encoding="StarMath 5.0"> size 12{p= lbrace  \( x rSub { size 8{1} } ,y rSub { size 8{1} }  \) , \( x rSub { size 8{2} } ,y rSub { size 8{2} }  \)  rbrace } {}</m:annotation></m:semantics></m:math>. Tada se koeficijenti transformacije (1) izračunavaju iz sistema jednačina</item>
+      </list>
+      <para id="id9957702">(2) 
+<m:math><m:semantics><m:mrow><m:mrow><m:mtable><m:mtr><m:mrow><m:mstyle fontsize="12pt"><m:mrow><m:mrow><m:mrow><m:msub><m:mi>x</m:mi><m:mstyle fontsize="8pt"><m:mrow><m:mn>1</m:mn></m:mrow></m:mstyle></m:msub><m:mo stretchy="false">=</m:mo><m:mrow><m:mstyle fontstyle="italic"><m:mrow><m:msub><m:mtext>aX</m:mtext><m:mstyle fontsize="8pt"><m:mrow><m:mn>1</m:mn></m:mrow></m:mstyle></m:msub></m:mrow></m:mstyle><m:mo stretchy="false">+</m:mo><m:mi>e</m:mi></m:mrow></m:mrow><m:mi>,</m:mi></m:mrow></m:mrow></m:mstyle><m:mrow/></m:mrow></m:mtr><m:mtr><m:mrow><m:mrow><m:msub><m:mi>x</m:mi><m:mstyle fontsize="8pt"><m:mrow><m:mn>2</m:mn></m:mrow></m:mstyle></m:msub><m:mo stretchy="false">=</m:mo><m:mrow><m:mstyle fontstyle="italic"><m:mrow><m:msub><m:mtext>aX</m:mtext><m:mstyle fontsize="8pt"><m:mrow><m:mn>2</m:mn></m:mrow></m:mstyle></m:msub></m:mrow></m:mstyle><m:mo stretchy="false">+</m:mo><m:mi>e</m:mi></m:mrow></m:mrow><m:mi>,</m:mi><m:mrow/></m:mrow></m:mtr></m:mtable><m:mrow/></m:mrow></m:mrow><m:annotation encoding="StarMath 5.0">alignl { stack {
+ size 12{x rSub { size 8{1} } = ital "aX" rSub { size 8{1} } +e,}  {} # 
+x rSub { size 8{2} } = ital "aX" rSub { size 8{2} } +e, {} 
+} } {}</m:annotation></m:semantics></m:math> tj. 
+<m:math><m:semantics><m:mrow><m:mrow><m:mtable><m:mtr><m:mrow><m:mstyle fontsize="12pt"><m:mrow><m:mrow><m:mrow><m:msub><m:mi>y</m:mi><m:mstyle fontsize="8pt"><m:mrow><m:mn>1</m:mn></m:mrow></m:mstyle></m:msub><m:mo stretchy="false">=</m:mo><m:mrow><m:mstyle fontstyle="italic"><m:mrow><m:msub><m:mtext>dY</m:mtext><m:mstyle fontsize="8pt"><m:mrow><m:mn>1</m:mn></m:mrow></m:mstyle></m:msub></m:mrow></m:mstyle><m:mo stretchy="false">+</m:mo><m:mi>f</m:mi></m:mrow></m:mrow><m:mi>,</m:mi></m:mrow></m:mrow></m:mstyle><m:mrow/></m:mrow></m:mtr><m:mtr><m:mrow><m:mrow><m:msub><m:mi>y</m:mi><m:mstyle fontsize="8pt"><m:mrow><m:mn>2</m:mn></m:mrow></m:mstyle></m:msub><m:mo stretchy="false">=</m:mo><m:mrow><m:mstyle fontstyle="italic"><m:mrow><m:msub><m:mtext>dY</m:mtext><m:mstyle fontsize="8pt"><m:mrow><m:mn>2</m:mn></m:mrow></m:mstyle></m:msub></m:mrow></m:mstyle><m:mo stretchy="false">+</m:mo><m:mi>f</m:mi></m:mrow></m:mrow><m:mi>,</m:mi><m:mrow/></m:mrow></m:mtr></m:mtable><m:mrow/></m:mrow></m:mrow><m:annotation encoding="StarMath 5.0">alignl { stack {
+ size 12{y rSub { size 8{1} } = ital "dY" rSub { size 8{1} } +f,}  {} # 
+y rSub { size 8{2} } = ital "dY" rSub { size 8{2} } +f, {} 
+} } {}</m:annotation></m:semantics></m:math></para>
+      <para id="id8582880">odakle se dobijaju koeficijenti window-to-viewport transformacije </para>
+      <para id="id9363221">
+        <m:math>
+          <m:semantics>
+            <m:mrow>
+              <m:mstyle fontsize="12pt">
+                <m:mrow>
+                  <m:mrow>
+                    <m:mrow>
+                      <m:mi>a</m:mi>
+                      <m:mo stretchy="false">=</m:mo>
+                      <m:mfrac>
+                        <m:mrow>
+                          <m:msub>
+                            <m:mi>x</m:mi>
+                            <m:mstyle fontsize="8pt">
+                              <m:mrow>
+                                <m:mn>2</m:mn>
+                              </m:mrow>
+                            </m:mstyle>
+                          </m:msub>
+                          <m:mo stretchy="false">−</m:mo>
+                          <m:msub>
+                            <m:mi>x</m:mi>
+                            <m:mstyle fontsize="8pt">
+                              <m:mrow>
+                                <m:mn>1</m:mn>
+                              </m:mrow>
+                            </m:mstyle>
+                          </m:msub>
+                        </m:mrow>
+                        <m:mrow>
+                          <m:msub>
+                            <m:mi>X</m:mi>
+                            <m:mstyle fontsize="8pt">
+                              <m:mrow>
+                                <m:mn>2</m:mn>
+                              </m:mrow>
+                            </m:mstyle>
+                          </m:msub>
+                          <m:mo stretchy="false">−</m:mo>
+                          <m:msub>
+                            <m:mi>X</m:mi>
+                            <m:mstyle fontsize="8pt">
+                              <m:mrow>
+                                <m:mn>1</m:mn>
+                              </m:mrow>
+                            </m:mstyle>
+                          </m:msub>
+                        </m:mrow>
+                      </m:mfrac>
+                    </m:mrow>
+                    <m:mi>,</m:mi>
+                    <m:mi/>
+                    <m:mrow>
+                      <m:mrow>
+                        <m:mi>e</m:mi>
+                        <m:mo stretchy="false">=</m:mo>
+                        <m:mrow>
+                          <m:msub>
+                            <m:mi>x</m:mi>
+                            <m:mstyle fontsize="8pt">
+                              <m:mrow>
+                                <m:mn>1</m:mn>
+                              </m:mrow>
+                            </m:mstyle>
+                          </m:msub>
+                          <m:mo stretchy="false">−</m:mo>
+                          <m:mstyle fontstyle="italic">
+                            <m:mrow>
+                              <m:msub>
+                                <m:mtext>aX</m:mtext>
+                                <m:mstyle fontsize="8pt">
+                                  <m:mrow>
+                                    <m:mn>1</m:mn>
+                                  </m:mrow>
+                                </m:mstyle>
+                              </m:msub>
+                            </m:mrow>
+                          </m:mstyle>
+                        </m:mrow>
+                      </m:mrow>
+                      <m:mo stretchy="false">=</m:mo>
+                      <m:mfrac>
+                        <m:mrow>
+                          <m:msub>
+                            <m:mi>x</m:mi>
+                            <m:mstyle fontsize="8pt">
+                              <m:mrow>
+                                <m:mn>1</m:mn>
+                              </m:mrow>
+                            </m:mstyle>
+                          </m:msub>
+                          <m:mrow>
+                            <m:msub>
+                              <m:mi>X</m:mi>
+                              <m:mstyle fontsize="8pt">
+                                <m:mrow>
+                                  <m:mn>2</m:mn>
+                                </m:mrow>
+                              </m:mstyle>
+                            </m:msub>
+                            <m:mo stretchy="false">−</m:mo>
+                            <m:msub>
+                              <m:mi>X</m:mi>
+                              <m:mstyle fontsize="8pt">
+                                <m:mrow>
+                                  <m:mn>1</m:mn>
+                                </m:mrow>
+                              </m:mstyle>
+                            </m:msub>
+                          </m:mrow>
+                          <m:msub>
+                            <m:mi>x</m:mi>
+                            <m:mstyle fontsize="8pt">
+                              <m:mrow>
+                                <m:mn>2</m:mn>
+                              </m:mrow>
+                            </m:mstyle>
+                          </m:msub>
+                        </m:mrow>
+                        <m:mrow>
+                          <m:msub>
+                            <m:mi>X</m:mi>
+                            <m:mstyle fontsize="8pt">
+                              <m:mrow>
+                                <m:mn>2</m:mn>
+                              </m:mrow>
+                            </m:mstyle>
+                          </m:msub>
+                          <m:mo stretchy="false">−</m:mo>
+                          <m:msub>
+                            <m:mi>X</m:mi>
+                            <m:mstyle fontsize="8pt">
+                              <m:mrow>
+                                <m:mn>1</m:mn>
+                              </m:mrow>
+                            </m:mstyle>
+                          </m:msub>
+                        </m:mrow>
+                      </m:mfrac>
+                    </m:mrow>
+                  </m:mrow>
+                </m:mrow>
+              </m:mstyle>
+              <m:mrow/>
+            </m:mrow>
+            <m:annotation encoding="StarMath 5.0"> size 12{a= {  {x rSub { size 8{2} }  - x rSub { size 8{1} } }  over  {X rSub { size 8{2} }  - X rSub { size 8{1} } } } ,``e=x rSub { size 8{1} }  -  ital "aX" rSub { size 8{1} } = {  {x rSub { size 8{1} } X rSub { size 8{2} }  - X rSub { size 8{1} } x rSub { size 8{2} } }  over  {X rSub { size 8{2} }  - X rSub { size 8{1} } } } } {}</m:annotation>
+          </m:semantics>
+        </m:math>
+      </para>
+      <para id="id11368315">
+        <m:math>
+          <m:semantics>
+            <m:mrow>
+              <m:mstyle fontsize="12pt">
+                <m:mrow>
+                  <m:mrow>
+                    <m:mrow>
+                      <m:mi>d</m:mi>
+                      <m:mo stretchy="false">=</m:mo>
+                      <m:mfrac>
+                        <m:mrow>
+                          <m:msub>
+                            <m:mi>y</m:mi>
+                            <m:mstyle fontsize="8pt">
+                              <m:mrow>
+                                <m:mn>2</m:mn>
+                              </m:mrow>
+                            </m:mstyle>
+                          </m:msub>
+                          <m:mo stretchy="false">−</m:mo>
+                          <m:msub>
+                            <m:mi>y</m:mi>
+                            <m:mstyle fontsize="8pt">
+                              <m:mrow>
+                                <m:mn>1</m:mn>
+                              </m:mrow>
+                            </m:mstyle>
+                          </m:msub>
+                        </m:mrow>
+                        <m:mrow>
+                          <m:msub>
+                            <m:mi>Y</m:mi>
+                            <m:mstyle fontsize="8pt">
+                              <m:mrow>
+                                <m:mn>2</m:mn>
+                              </m:mrow>
+                            </m:mstyle>
+                          </m:msub>
+                          <m:mo stretchy="false">−</m:mo>
+                          <m:msub>
+                            <m:mi>Y</m:mi>
+                            <m:mstyle fontsize="8pt">
+                              <m:mrow>
+                                <m:mn>1</m:mn>
+                              </m:mrow>
+                            </m:mstyle>
+                          </m:msub>
+                        </m:mrow>
+                      </m:mfrac>
+                    </m:mrow>
+                    <m:mi>,</m:mi>
+                    <m:mi/>
+                    <m:mrow>
+                      <m:mrow>
+                        <m:mi>f</m:mi>
+                        <m:mo stretchy="false">=</m:mo>
+                        <m:mrow>
+                          <m:msub>
+                            <m:mi>y</m:mi>
+                            <m:mstyle fontsize="8pt">
+                              <m:mrow>
+                                <m:mn>1</m:mn>
+                              </m:mrow>
+                            </m:mstyle>
+                          </m:msub>
+                          <m:mo stretchy="false">−</m:mo>
+                          <m:mstyle fontstyle="italic">
+                            <m:mrow>
+                              <m:msub>
+                                <m:mtext>dY</m:mtext>
+                                <m:mstyle fontsize="8pt">
+                                  <m:mrow>
+                                    <m:mn>1</m:mn>
+                                  </m:mrow>
+                                </m:mstyle>
+                              </m:msub>
+                            </m:mrow>
+                          </m:mstyle>
+                        </m:mrow>
+                      </m:mrow>
+                      <m:mo stretchy="false">=</m:mo>
+                      <m:mfrac>
+                        <m:mrow>
+                          <m:msub>
+                            <m:mi>y</m:mi>
+                            <m:mstyle fontsize="8pt">
+                              <m:mrow>
+                                <m:mn>1</m:mn>
+                              </m:mrow>
+                            </m:mstyle>
+                          </m:msub>
+                          <m:mrow>
+                            <m:msub>
+                              <m:mi>Y</m:mi>
+                              <m:mstyle fontsize="8pt">
+                                <m:mrow>
+                                  <m:mn>2</m:mn>
+                                </m:mrow>
+                              </m:mstyle>
+                            </m:msub>
+                            <m:mo stretchy="false">−</m:mo>
+                            <m:msub>
+                              <m:mi>Y</m:mi>
+                              <m:mstyle fontsize="8pt">
+                                <m:mrow>
+                                  <m:mn>1</m:mn>
+                                </m:mrow>
+                              </m:mstyle>
+                            </m:msub>
+                          </m:mrow>
+                          <m:msub>
+                            <m:mi>y</m:mi>
+                            <m:mstyle fontsize="8pt">
+                              <m:mrow>
+                                <m:mn>2</m:mn>
+                              </m:mrow>
+                            </m:mstyle>
+                          </m:msub>
+                        </m:mrow>
+                        <m:mrow>
+                          <m:msub>
+                            <m:mi>Y</m:mi>
+                            <m:mstyle fontsize="8pt">
+                              <m:mrow>
+                                <m:mn>2</m:mn>
+                              </m:mrow>
+                            </m:mstyle>
+                          </m:msub>
+                          <m:mo stretchy="false">−</m:mo>
+                          <m:msub>
+                            <m:mi>Y</m:mi>
+                            <m:mstyle fontsize="8pt">
+                              <m:mrow>
+                                <m:mn>1</m:mn>
+                              </m:mrow>
+                            </m:mstyle>
+                          </m:msub>
+                        </m:mrow>
+                      </m:mfrac>
+                    </m:mrow>
+                    <m:mtext>.</m:mtext>
+                  </m:mrow>
+                </m:mrow>
+              </m:mstyle>
+              <m:mrow/>
+            </m:mrow>
+            <m:annotation encoding="StarMath 5.0"> size 12{d= {  {y rSub { size 8{2} }  - y rSub { size 8{1} } }  over  {Y rSub { size 8{2} }  - Y rSub { size 8{1} } } } ,``f=y rSub { size 8{1} }  -  ital "dY" rSub { size 8{1} } = {  {y rSub { size 8{1} } Y rSub { size 8{2} }  - Y rSub { size 8{1} } y rSub { size 8{2} } }  over  {Y rSub { size 8{2} }  - Y rSub { size 8{1} } } }  "." } {}</m:annotation>
+          </m:semantics>
+        </m:math>
+      </para>
+      <para id="id10867792">Primetimo da se transformacija (1) može napisati u matričnom obliku </para>
+      <para id="id9638617">(3) 
+<m:math><m:semantics><m:mrow><m:mstyle fontsize="12pt"><m:mrow><m:mrow><m:mrow><m:mfenced open="(" close=")"><m:mtable><m:mtr><m:mtd><m:mrow><m:mi>x</m:mi><m:mrow/></m:mrow></m:mtd></m:mtr><m:mtr><m:mtd><m:mi>y</m:mi></m:mtd></m:mtr></m:mtable></m:mfenced><m:mo stretchy="false">=</m:mo><m:mfenced open="(" close=")"><m:mtable><m:mtr><m:mtd><m:mrow><m:mi>a</m:mi><m:mrow/></m:mrow></m:mtd><m:mtd><m:mrow><m:mn>0</m:mn><m:mrow/></m:mrow></m:mtd></m:mtr><m:mtr><m:mtd><m:mrow><m:mn>0</m:mn><m:mrow/></m:mrow></m:mtd><m:mtd><m:mrow><m:mi>d</m:mi><m:mrow/></m:mrow></m:mtd></m:mtr></m:mtable></m:mfenced></m:mrow><m:mi/><m:mrow><m:mfenced open="(" close=")"><m:mtable><m:mtr><m:mtd><m:mrow><m:mi>X</m:mi><m:mrow/></m:mrow></m:mtd></m:mtr><m:mtr><m:mtd><m:mi>Y</m:mi></m:mtd></m:mtr></m:mtable></m:mfenced><m:mo stretchy="false">+</m:mo><m:mfenced open="(" close=")"><m:mtable><m:mtr><m:mtd><m:mrow><m:mi>e</m:mi><m:mrow/></m:mrow></m:mtd></m:mtr><m:mtr><m:mtd><m:mi>f</m:mi></m:mtd></m:mtr></m:mtable></m:mfenced></m:mrow><m:mi>,</m:mi></m:mrow></m:mrow></m:mstyle><m:mrow/></m:mrow><m:annotation encoding="StarMath 5.0"> size 12{ left ( matrix {
+x {} ##
+y
+}  right )= left ( matrix {
+a {} # 0 {} ##
+0 {} # d{}
+}  right )` left ( matrix {
+X {} ##
+Y
+}  right )+ left ( matrix {
+e {} ##
+f
+}  right ),} {}</m:annotation></m:semantics></m:math></para>
+      <para id="id7984589">tako da se inverzna transformacija moze izračunati primenom inverzne matrice</para>
+      <para id="id9010416"><m:math>
+          <m:semantics>
+            <m:mrow>
+              <m:mstyle fontsize="12pt">
+                <m:mrow>
+                  <m:mrow>
+                    <m:mrow>
+                      <m:mfenced open="(" close=")">
+                        <m:mtable>
+                          <m:mtr>
+                            <m:mtd>
+                              <m:mrow>
+                                <m:mi>X</m:mi>
+                                <m:mrow/>
+                              </m:mrow>
+                            </m:mtd>
+                          </m:mtr>
+                          <m:mtr>
+                            <m:mtd>
+                              <m:mi>Y</m:mi>
+                            </m:mtd>
+                          </m:mtr>
+                        </m:mtable>
+                      </m:mfenced>
+                      <m:mo stretchy="false">=</m:mo>
+                      <m:msup>
+                        <m:mfenced open="(" close=")">
+                          <m:mtable>
+                            <m:mtr>
+                              <m:mtd>
+                                <m:mrow>
+                                  <m:mi>a</m:mi>
+                                  <m:mrow/>
+                                </m:mrow>
+                              </m:mtd>
+                              <m:mtd>
+                                <m:mrow>
+                                  <m:mn>0</m:mn>
+                                  <m:mrow/>
+                                </m:mrow>
+                              </m:mtd>
+                            </m:mtr>
+                            <m:mtr>
+                              <m:mtd>
+                                <m:mrow>
+                                  <m:mn>0</m:mn>
+                                  <m:mrow/>
+                                </m:mrow>
+                              </m:mtd>
+                              <m:mtd>
+                                <m:mrow>
+                                  <m:mi>d</m:mi>
+                                  <m:mrow/>
+                                </m:mrow>
+                              </m:mtd>
+                            </m:mtr>
+                          </m:mtable>
+                        </m:mfenced>
+                        <m:mstyle fontsize="8pt">
+                          <m:mrow>
+                            <m:mrow>
+                              <m:mo stretchy="false">−</m:mo>
+                              <m:mn>1</m:mn>
+                            </m:mrow>
+                          </m:mrow>
+                        </m:mstyle>
+                      </m:msup>
+                    </m:mrow>
+                    <m:mfenced open="{" close="}">
+                      <m:mrow>
+                        <m:mfenced open="(" close=")">
+                          <m:mtable>
+                            <m:mtr>
+                              <m:mtd>
+                                <m:mrow>
+                                  <m:mi>x</m:mi>
+                                  <m:mrow/>
+                                </m:mrow>
+                              </m:mtd>
+                            </m:mtr>
+                            <m:mtr>
+                              <m:mtd>
+                                <m:mi>y</m:mi>
+                              </m:mtd>
+                            </m:mtr>
+                          </m:mtable>
+                        </m:mfenced>
+                        <m:mo stretchy="false">−</m:mo>
+                        <m:mfenced open="(" close=")">
+                          <m:mtable>
+                            <m:mtr>
+                              <m:mtd>
+                                <m:mrow>
+                                  <m:mi>e</m:mi>
+                                  <m:mrow/>
+                                </m:mrow>
+                              </m:mtd>
+                            </m:mtr>
+                            <m:mtr>
+                              <m:mtd>
+                                <m:mi>f</m:mi>
+                              </m:mtd>
+                            </m:mtr>
+                          </m:mtable>
+                        </m:mfenced>
+                      </m:mrow>
+                    </m:mfenced>
+                    <m:mi>,</m:mi>
+                  </m:mrow>
+                </m:mrow>
+              </m:mstyle>
+              <m:mrow/>
+            </m:mrow>
+            <m:annotation encoding="StarMath 5.0"> size 12{ left ( matrix {
+X {} ##
+Y
+}  right )= left ( matrix {
+a {} # 0 {} ##
+0 {} # d{}
+}  right ) rSup { size 8{ - 1} }  left lbrace  left ( matrix {
+x {} ##
+y
+}  right ) -  left ( matrix {
+e {} ##
+f
+}  right ) right rbrace ,} {}</m:annotation>
+          </m:semantics>
+        </m:math>
+      </para>
+      <para id="id11318766">tj.</para>
+      <para id="id8474828"><m:math>
+          <m:semantics>
+            <m:mrow>
+              <m:mstyle fontsize="12pt">
+                <m:mrow>
+                  <m:mrow>
+                    <m:mrow>
+                      <m:mfenced open="(" close=")">
+                        <m:mtable>
+                          <m:mtr>
+                            <m:mtd>
+                              <m:mrow>
+                                <m:mi>X</m:mi>
+                                <m:mrow/>
+                              </m:mrow>
+                            </m:mtd>
+                          </m:mtr>
+                          <m:mtr>
+                            <m:mtd>
+                              <m:mi>Y</m:mi>
+                            </m:mtd>
+                          </m:mtr>
+                        </m:mtable>
+                      </m:mfenced>
+                      <m:mo stretchy="false">=</m:mo>
+                      <m:mfenced open="(" close=")">
+                        <m:mtable>
+                          <m:mtr>
+                            <m:mtd>
+                              <m:mrow>
+                                <m:mrow>
+                                  <m:mn>1</m:mn>
+                                  <m:mo stretchy="false">/</m:mo>
+                                  <m:mi>a</m:mi>
+                                </m:mrow>
+                                <m:mrow/>
+                              </m:mrow>
+                            </m:mtd>
+                            <m:mtd>
+                              <m:mrow>
+                                <m:mn>0</m:mn>
+                                <m:mrow/>
+                              </m:mrow>
+                            </m:mtd>
+                          </m:mtr>
+                          <m:mtr>
+                            <m:mtd>
+                              <m:mrow>
+                                <m:mn>0</m:mn>
+                                <m:mrow/>
+                              </m:mrow>
+                            </m:mtd>
+                            <m:mtd>
+                              <m:mrow>
+                                <m:mrow>
+                                  <m:mn>1</m:mn>
+                                  <m:mo stretchy="false">/</m:mo>
+                                  <m:mi>d</m:mi>
+                                </m:mrow>
+                                <m:mrow/>
+                              </m:mrow>
+                            </m:mtd>
+                          </m:mtr>
+                        </m:mtable>
+                      </m:mfenced>
+                    </m:mrow>
+                    <m:mi/>
+                    <m:mfenced open="(" close=")">
+                      <m:mtable>
+                        <m:mtr>
+                          <m:mtd>
+                            <m:mrow>
+                              <m:mrow>
+                                <m:mi>x</m:mi>
+                                <m:mo stretchy="false">−</m:mo>
+                                <m:mi>e</m:mi>
+                              </m:mrow>
+                              <m:mrow/>
+                            </m:mrow>
+                          </m:mtd>
+                        </m:mtr>
+                        <m:mtr>
+                          <m:mtd>
+                            <m:mrow>
+                              <m:mi>y</m:mi>
+                              <m:mo stretchy="false">−</m:mo>
+                              <m:mi>f</m:mi>
+                            </m:mrow>
+                          </m:mtd>
+                        </m:mtr>
+                      </m:mtable>
+                    </m:mfenced>
+                    <m:mtext>.</m:mtext>
+                  </m:mrow>
+                </m:mrow>
+              </m:mstyle>
+              <m:mrow/>
+            </m:mrow>
+            <m:annotation encoding="StarMath 5.0"> size 12{ left ( matrix {
+X {} ##
+Y
+}  right )= left ( matrix {
+1/a {} # 0 {} ##
+0 {} # 1/d{}
+}  right )` left ( matrix {
+x - e {} ##
+y - f
+}  right ) "." } {}</m:annotation>
+          </m:semantics>
+        </m:math>
+      </para>
+      <para id="id11054588">
+        <m:math>
+          <m:semantics>
+            <m:mrow/>
+            <m:annotation encoding="StarMath 5.0">{}</m:annotation>
+          </m:semantics>
+        </m:math>
+      </para>
+      <para id="id9642713">Tako se najzad dobija </para>
+      <para id="id9644562"><m:math><m:semantics><m:mrow><m:mstyle fontsize="12pt"><m:mrow><m:mrow><m:mrow><m:mi>X</m:mi><m:mo stretchy="false">=</m:mo><m:mo stretchy="false">(</m:mo></m:mrow><m:mrow><m:mi>x</m:mi><m:mo stretchy="false">−</m:mo><m:mi>e</m:mi></m:mrow><m:mrow><m:mo stretchy="false">)</m:mo><m:mo stretchy="false">/</m:mo><m:mi>a</m:mi></m:mrow><m:mi>,</m:mi><m:mi/><m:mrow><m:mi>Y</m:mi><m:mo stretchy="false">=</m:mo><m:mo stretchy="false">(</m:mo></m:mrow><m:mrow><m:mi>y</m:mi><m:mo stretchy="false">−</m:mo><m:mi>f</m:mi></m:mrow><m:mrow><m:mo stretchy="false">)</m:mo><m:mo stretchy="false">/</m:mo><m:mi>d</m:mi></m:mrow><m:mi>,</m:mi></m:mrow></m:mrow></m:mstyle><m:mrow/></m:mrow><m:annotation encoding="StarMath 5.0"> size 12{X= \( x - e \) /a,~Y= \( y - f \) /d,} {}</m:annotation></m:semantics></m:math> ili<!--Sorry, this media type is not supported.--></para>
+      <para id="id9208741"/>
+      <para id="id9712017">
+        <m:math>
+          <m:semantics>
+            <m:mrow>
+              <m:mstyle fontsize="12pt">
+                <m:mrow>
+                  <m:mrow>
+                    <m:mrow>
+                      <m:mi>X</m:mi>
+                      <m:mo stretchy="false">=</m:mo>
+                      <m:mfrac>
+                        <m:mrow>
+                          <m:msub>
+                            <m:mi>X</m:mi>
+                            <m:mstyle fontsize="8pt">
+                              <m:mrow>
+                                <m:mn>2</m:mn>
+                              </m:mrow>
+                            </m:mstyle>
+                          </m:msub>
+                          <m:mo stretchy="false">−</m:mo>
+                          <m:msub>
+                            <m:mi>X</m:mi>
+                            <m:mstyle fontsize="8pt">
+                              <m:mrow>
+                                <m:mn>1</m:mn>
+                              </m:mrow>
+                            </m:mstyle>
+                          </m:msub>
+                        </m:mrow>
+                        <m:mrow>
+                          <m:msub>
+                            <m:mi>x</m:mi>
+                            <m:mstyle fontsize="8pt">
+                              <m:mrow>
+                                <m:mn>2</m:mn>
+                              </m:mrow>
+                            </m:mstyle>
+                          </m:msub>
+                          <m:mo stretchy="false">−</m:mo>
+                          <m:msub>
+                            <m:mi>x</m:mi>
+                            <m:mstyle fontsize="8pt">
+                              <m:mrow>
+                                <m:mn>1</m:mn>
+                              </m:mrow>
+                            </m:mstyle>
+                          </m:msub>
+                        </m:mrow>
+                      </m:mfrac>
+                    </m:mrow>
+                    <m:mrow>
+                      <m:mi>x</m:mi>
+                      <m:mo stretchy="false">−</m:mo>
+                      <m:mfrac>
+                        <m:mrow>
+                          <m:msub>
+                            <m:mi>x</m:mi>
+                            <m:mstyle fontsize="8pt">
+                              <m:mrow>
+                                <m:mn>1</m:mn>
+                              </m:mrow>
+                            </m:mstyle>
+                          </m:msub>
+                          <m:mrow>
+                            <m:msub>
+                              <m:mi>X</m:mi>
+                              <m:mstyle fontsize="8pt">
+                                <m:mrow>
+                                  <m:mn>2</m:mn>
+                                </m:mrow>
+                              </m:mstyle>
+                            </m:msub>
+                            <m:mo stretchy="false">−</m:mo>
+                            <m:msub>
+                              <m:mi>x</m:mi>
+                              <m:mstyle fontsize="8pt">
+                                <m:mrow>
+                                  <m:mn>2</m:mn>
+                                </m:mrow>
+                              </m:mstyle>
+                            </m:msub>
+                          </m:mrow>
+                          <m:msub>
+                            <m:mi>X</m:mi>
+                            <m:mstyle fontsize="8pt">
+                              <m:mrow>
+                                <m:mn>1</m:mn>
+                              </m:mrow>
+                            </m:mstyle>
+                          </m:msub>
+                        </m:mrow>
+                        <m:mrow>
+                          <m:msub>
+                            <m:mi>x</m:mi>
+                            <m:mstyle fontsize="8pt">
+                              <m:mrow>
+                                <m:mn>2</m:mn>
+                              </m:mrow>
+                            </m:mstyle>
+                          </m:msub>
+                          <m:mo stretchy="false">−</m:mo>
+                          <m:msub>
+                            <m:mi>x</m:mi>
+                            <m:mstyle fontsize="8pt">
+                              <m:mrow>
+                                <m:mn>1</m:mn>
+                              </m:mrow>
+                            </m:mstyle>
+                          </m:msub>
+                        </m:mrow>
+                      </m:mfrac>
+                    </m:mrow>
+                    <m:mi>,</m:mi>
+                    <m:mi/>
+                    <m:mrow>
+                      <m:mi>Y</m:mi>
+                      <m:mo stretchy="false">=</m:mo>
+                      <m:mfrac>
+                        <m:mrow>
+                          <m:msub>
+                            <m:mi>Y</m:mi>
+                            <m:mstyle fontsize="8pt">
+                              <m:mrow>
+                                <m:mn>2</m:mn>
+                              </m:mrow>
+                            </m:mstyle>
+                          </m:msub>
+                          <m:mo stretchy="false">−</m:mo>
+                          <m:msub>
+                            <m:mi>Y</m:mi>
+                            <m:mstyle fontsize="8pt">
+                              <m:mrow>
+                                <m:mn>1</m:mn>
+                              </m:mrow>
+                            </m:mstyle>
+                          </m:msub>
+                        </m:mrow>
+                        <m:mrow>
+                          <m:msub>
+                            <m:mi>y</m:mi>
+                            <m:mstyle fontsize="8pt">
+                              <m:mrow>
+                                <m:mn>2</m:mn>
+                              </m:mrow>
+                            </m:mstyle>
+                          </m:msub>
+                          <m:mo stretchy="false">−</m:mo>
+                          <m:msub>
+                            <m:mi>y</m:mi>
+                            <m:mstyle fontsize="8pt">
+                              <m:mrow>
+                                <m:mn>1</m:mn>
+                              </m:mrow>
+                            </m:mstyle>
+                          </m:msub>
+                        </m:mrow>
+                      </m:mfrac>
+                    </m:mrow>
+                    <m:mrow>
+                      <m:mi>y</m:mi>
+                      <m:mo stretchy="false">−</m:mo>
+                      <m:mfrac>
+                        <m:mrow>
+                          <m:msub>
+                            <m:mi>y</m:mi>
+                            <m:mstyle fontsize="8pt">
+                              <m:mrow>
+                                <m:mn>1</m:mn>
+                              </m:mrow>
+                            </m:mstyle>
+                          </m:msub>
+                          <m:mrow>
+                            <m:msub>
+                              <m:mi>Y</m:mi>
+                              <m:mstyle fontsize="8pt">
+                                <m:mrow>
+                                  <m:mn>2</m:mn>
+                                </m:mrow>
+                              </m:mstyle>
+                            </m:msub>
+                            <m:mo stretchy="false">−</m:mo>
+                            <m:msub>
+                              <m:mi>y</m:mi>
+                              <m:mstyle fontsize="8pt">
+                                <m:mrow>
+                                  <m:mn>2</m:mn>
+                                </m:mrow>
+                              </m:mstyle>
+                            </m:msub>
+                          </m:mrow>
+                          <m:msub>
+                            <m:mi>Y</m:mi>
+                            <m:mstyle fontsize="8pt">
+                              <m:mrow>
+                                <m:mn>1</m:mn>
+                              </m:mrow>
+                            </m:mstyle>
+                          </m:msub>
+                        </m:mrow>
+                        <m:mrow>
+                          <m:msub>
+                            <m:mi>y</m:mi>
+                            <m:mstyle fontsize="8pt">
+                              <m:mrow>
+                                <m:mn>2</m:mn>
+                              </m:mrow>
+                            </m:mstyle>
+                          </m:msub>
+                          <m:mo stretchy="false">−</m:mo>
+                          <m:msub>
+                            <m:mi>y</m:mi>
+                            <m:mstyle fontsize="8pt">
+                              <m:mrow>
+                                <m:mn>1</m:mn>
+                              </m:mrow>
+                            </m:mstyle>
+                          </m:msub>
+                        </m:mrow>
+                      </m:mfrac>
+                    </m:mrow>
+                    <m:mtext>.</m:mtext>
+                  </m:mrow>
+                </m:mrow>
+              </m:mstyle>
+              <m:mrow/>
+            </m:mrow>
+            <m:annotation encoding="StarMath 5.0"> size 12{X= {  {X rSub { size 8{2} }  - X rSub { size 8{1} } }  over  {x rSub { size 8{2} }  - x rSub { size 8{1} } } } x -  {  {x rSub { size 8{1} } X rSub { size 8{2} }  - x rSub { size 8{2} } X rSub { size 8{1} } }  over  {x rSub { size 8{2} }  - x rSub { size 8{1} } } } ,~Y= {  {Y rSub { size 8{2} }  - Y rSub { size 8{1} } }  over  {y rSub { size 8{2} }  - y rSub { size 8{1} } } } y -  {  {y rSub { size 8{1} } Y rSub { size 8{2} }  - y rSub { size 8{2} } Y rSub { size 8{1} } }  over  {y rSub { size 8{2} }  - y rSub { size 8{1} } } }  "." } {}</m:annotation>
+          </m:semantics>
+        </m:math>
+      </para>
+      <para id="id6594724">Direktna i inverzna transformacija prikazane su na Slici 3.</para>
+      <para id="id8559987">Naravno, 
+<m:math><m:semantics><m:mrow><m:mstyle fontsize="12pt"><m:mrow><m:mi>a</m:mi></m:mrow></m:mstyle><m:mrow/></m:mrow><m:annotation encoding="StarMath 5.0"> size 12{a} {}</m:annotation></m:semantics></m:math> i 
+<m:math><m:semantics><m:mrow><m:mstyle fontsize="12pt"><m:mrow><m:mi>d</m:mi></m:mrow></m:mstyle><m:mrow/></m:mrow><m:annotation encoding="StarMath 5.0"> size 12{d} {}</m:annotation></m:semantics></m:math> moraju biti različiti od 0 inače bi transformacija (1) bila loše definisana. Uslovi 
+<m:math><m:semantics><m:mrow><m:mstyle fontsize="12pt"><m:mrow><m:mrow><m:mrow><m:mi>a</m:mi><m:mo stretchy="false">≠</m:mo><m:mn>0,</m:mn></m:mrow><m:mrow><m:mi>d</m:mi><m:mo stretchy="false">≠</m:mo><m:mn>0</m:mn></m:mrow></m:mrow></m:mrow></m:mstyle><m:mrow/></m:mrow><m:annotation encoding="StarMath 5.0"> size 12{a &lt;&gt; 0,d &lt;&gt; 0} {}</m:annotation></m:semantics></m:math> se zovu <term>uslovi regularnosti</term>, i pod tim uslovima transformacija (1) tj. (3) je <term>regularna</term>. </para>
+      <para id="id9811228">U slučaju da bilo 
+<m:math><m:semantics><m:mrow><m:mstyle fontsize="12pt"><m:mrow><m:mi>a</m:mi></m:mrow></m:mstyle><m:mrow/></m:mrow><m:annotation encoding="StarMath 5.0"> size 12{a} {}</m:annotation></m:semantics></m:math> ili 
+<m:math><m:semantics><m:mrow><m:mstyle fontsize="12pt"><m:mrow><m:mi>d</m:mi></m:mrow></m:mstyle><m:mrow/></m:mrow><m:annotation encoding="StarMath 5.0"> size 12{d} {}</m:annotation></m:semantics></m:math> ili pak istovremeno 
+<m:math><m:semantics><m:mrow><m:mstyle fontsize="12pt"><m:mrow><m:mi>a</m:mi></m:mrow></m:mstyle><m:mrow/></m:mrow><m:annotation encoding="StarMath 5.0"> size 12{a} {}</m:annotation></m:semantics></m:math> i 
+<m:math><m:semantics><m:mrow><m:mstyle fontsize="12pt"><m:mrow><m:mi>d</m:mi></m:mrow></m:mstyle><m:mrow/></m:mrow><m:annotation encoding="StarMath 5.0"> size 12{d} {}</m:annotation></m:semantics></m:math> budu = 0, transformacija je <term>degenerisana</term>. Degenerisana transformacija u ovom slučaju znači da slika pravougaonika P nije pravougaonik već geometrijski objekat niže dimenzionalnosti. Tako, ako je 
+<m:math><m:semantics><m:mrow><m:mstyle fontsize="12pt"><m:mrow><m:mrow><m:mrow><m:mi>a</m:mi><m:mo stretchy="false">=</m:mo><m:mn>0,</m:mn></m:mrow><m:mrow><m:mi>d</m:mi><m:mo stretchy="false">≠</m:mo><m:mn>0,</m:mn></m:mrow></m:mrow></m:mrow></m:mstyle><m:mrow/></m:mrow><m:annotation encoding="StarMath 5.0"> size 12{a=0,d &lt;&gt; 0,} {}</m:annotation></m:semantics></m:math> slika degeneriše u duž koja se poklapa sa levom vertikalnom stranicom pravougaonika p. Ako je 
+<m:math><m:semantics><m:mrow><m:mstyle fontsize="12pt"><m:mrow><m:mrow><m:mrow><m:mi>a</m:mi><m:mo stretchy="false">≠</m:mo><m:mn>0,</m:mn></m:mrow><m:mrow><m:mi>d</m:mi><m:mo stretchy="false">=</m:mo><m:mn>0,</m:mn></m:mrow></m:mrow></m:mrow></m:mstyle><m:mrow/></m:mrow><m:annotation encoding="StarMath 5.0"> size 12{a &lt;&gt; 0,d=0,} {}</m:annotation></m:semantics></m:math> pravougaonik P se preslikava u donju osnovu (dakle opet u duž), dok se u slučaju <emphasis>a</emphasis> = 0, <emphasis>d </emphasis>= 0, pravougaonik P preslikava u tačku 
+<m:math><m:semantics><m:mrow><m:mstyle fontsize="12pt"><m:mrow><m:mrow><m:mo stretchy="false">(</m:mo><m:mi>e</m:mi><m:mi>,</m:mi><m:mi>f</m:mi><m:mo stretchy="false">)</m:mo><m:mi>,</m:mi></m:mrow></m:mrow></m:mstyle><m:mrow/></m:mrow><m:annotation encoding="StarMath 5.0"> size 12{ \( e,f \) ,} {}</m:annotation></m:semantics></m:math> koja je u regularnom slučaju donje levo teme vjuporta p. Sva tri slučaja degenerisane transformacije prikazana su na Slici 4.</para>
+      <table id="id7223120" summary="">
+        <tgroup cols="1">
+          <colspec colnum="1" colname="c1"/>
+          <tbody>
+            <row>
+              <entry>
+                <media id="idp4594096" alt=""><image src="../../media/graphics4.png" mime-type="image/png"/></media>
+              </entry>
+            </row>
+            <row>
+              <entry>Sl. 4. Degenerisani slučajevi “window-to-viewport” transformacije</entry>
+            </row>
+          </tbody>
+        </tgroup>
+      </table>
+    </section>
+  </content>
+</document>
